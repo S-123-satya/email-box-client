@@ -3,14 +3,17 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import { useDispatch, useSelector } from "react-redux";
-import { logout, toggleLoginMode } from "../store";
+import { loginMode, logout, signupMode, toggleLoginMode } from "../store";
 import Button from "react-bootstrap/esm/Button";
 
 const Header = () => {
   const authState = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-  const toggleLoginHandler = () => {
-    dispatch(toggleLoginMode());
+  const loginModeHandler = () => {
+    dispatch(loginMode());
+  };
+  const signupModeHandler = () => {
+    dispatch(signupMode());
   };
   const logoutHander = () => {
     dispatch(logout());
@@ -26,10 +29,14 @@ const Header = () => {
             <Nav.Link href="#link">Link</Nav.Link>
           </Nav>
         </Navbar.Collapse>
-        {authState.isLogin && <Button onClick={logoutHander}> Logout</Button>}
-        <Button onClick={toggleLoginHandler}>
-          {authState.isLoginMode ? "Login" : "SignUp"}
-        </Button>
+        {authState.isLogin ? (
+          <Button onClick={logoutHander}> Logout</Button>
+        ) : (
+          <>
+            <Button className="m-2" variant="success" onClick={loginModeHandler}> Login </Button>
+            <Button  onClick={signupModeHandler} >Signup</Button>
+          </>
+        )}
       </Container>
     </Navbar>
   );

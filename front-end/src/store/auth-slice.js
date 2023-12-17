@@ -28,7 +28,13 @@ const authSlice = createSlice({
     },
     toggleLoginMode(state){
         state.isLoginMode=!state.isLoginMode;
-    }
+    },
+    loginMode(state){
+        state.isLoginMode=true;
+    },
+    signupMode(state){
+        state.isLoginMode=false;
+    },
   },
 });
 

@@ -7,6 +7,6 @@ const store=configureStore({
     }
 })
 
-export const {login,logout,toggleLoginMode}= authSlice.actions;
+export const {login,logout,toggleLoginMode,signupMode,loginMode}= authSlice.actions;
 
 export default store;
