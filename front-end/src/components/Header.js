@@ -13,9 +13,11 @@ const Header = () => {
   const navigate=useNavigate()
   const loginModeHandler = () => {
     dispatch(loginMode());
+    navigate('/login');
   };
   const signupModeHandler = () => {
     dispatch(signupMode());
+    navigate('/login');
   };
   const logoutHander = () => {
     dispatch(logout());

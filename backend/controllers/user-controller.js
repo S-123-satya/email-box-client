@@ -5,11 +5,22 @@ const saltRounds = 10;
 
 module.exports.postLogin = async (req, res) => {
   console.log(req.body);
-  const result = await User.findOne({ where: { email: req.body.email } });
-  if (!result)
+  const user = await User.findOne({ where: { email: req.body.email } });
+  if (!user){
     res
       .status(404)
-      .json({ message: "User not found please login with valid email" });
+      .json({ message: "User not found please login with valid email" });}
+      else{
+        console.log(user);
+        const token = await generateToken({ id: user.id, email: user.email });
+      res.status(201).json({
+        message: "User signup successfully",
+        //only send token and extract everything from token
+        userId: user.id,
+        email: user.email,
+        token: token,
+      });
+      }
 };
 module.exports.postSignUp = async (req, res) => {
   try {
