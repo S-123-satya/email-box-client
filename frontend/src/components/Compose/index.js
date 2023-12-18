@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { Component } from 'react';
+import { Editor } from 'react-draft-wysiwyg';
+import '../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import EditorComponent from './EditorComponent';
 
-const Compose = () => {
-  return (
-    <div>Compose</div>
-  )
-}
 
-export default Compose
+const Compose = () => <EditorComponent />
+
+export default Compose;

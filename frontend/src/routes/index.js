@@ -7,11 +7,11 @@ import { Compose, Home, Inbox, Login, Message } from "../components";
 
 const elementRoute = createRoutesFromElements(
   <>
-    <Route path="/login" element={<Login />} />
     <Route path="/" element={<Home />}>
-      <Route path="" element={<Inbox />} />
-      <Route path="compose" element={<Compose />} />
-      <Route path="message" element={<Message />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/inbox" element={<Inbox />} />
+      <Route path="/compose" element={<Compose />} />
+      <Route path="/message" element={<Message />} />
     </Route>
   </>
 );

@@ -39,7 +39,7 @@ const LoginForm = () => {
         setEmailInp("");
         setPasswordInp("");
         if (!authState.isLoginMode) setCpasswordInp("");
-        navigate("/");
+        navigate("/inbox");
       }
     } catch (error) {
       //somthing went wrong
