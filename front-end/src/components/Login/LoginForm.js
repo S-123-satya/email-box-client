@@ -1,21 +1,25 @@
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/esm/Button";
+import Form from "react-bootstrap/esm/Form";
 import Col from "react-bootstrap/esm/Col";
 import Row from "react-bootstrap/esm/Row";
 import Container from "react-bootstrap/esm/Container";
-import { useSelector } from "react-redux";
+import Alert from "react-bootstrap/esm/Alert";
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import axios from "axios";
+import { login } from "../../store";
+import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
   const authState = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [emailInp, setEmailInp] = useState("");
   const [passwordInp, setPasswordInp] = useState("");
   const [cpasswordInp, setCpasswordInp] = useState("");
   const submitHandler = async (e) => {
     try {
       e.preventDefault();
-      console.log(e);
       if (!authState.isLoginMode && cpasswordInp !== passwordInp) {
         alert("Password are not matching");
         return;
@@ -29,14 +33,20 @@ const LoginForm = () => {
           url = `http://localhost:5000/user`;
         } else url = `http://localhost:5000/user/signup`;
         const response = await axios.post(url, obj);
-        console.log(response);
-        //change your navigation to home route or email route
+        const { email, password, token } = response.data;
+        dispatch(login({ email, password, token }));
+        alert("User signup successfully");
+        setEmailInp("");
+        setPasswordInp("");
+        if (!authState.isLoginMode) setCpasswordInp("");
+        navigate("/");
       }
     } catch (error) {
-        //somthing went wrong
-        console.log(error?.response?.data?.message);
-        console.log(`somthing went wrong`);
-        // throw new Error(error.message);
+      //somthing went wrong
+      console.log(e.target);
+      console.log(error);
+      alert(`somthing went wrong`);
+      // throw new Error(error.message);
     }
   };
   return (
@@ -64,7 +74,11 @@ const LoginForm = () => {
               />
             </Form.Group>
             <Form.Group
-              className={authState.isLoginMode?"mx-2 bg-light rounded-bottom-2":"mx-2 bg-light"}
+              className={
+                authState.isLoginMode
+                  ? "mx-2 bg-light rounded-bottom-2"
+                  : "mx-2 bg-light"
+              }
               controlId="formBasicPassword"
             >
               <Form.Label className="m-1">Password</Form.Label>

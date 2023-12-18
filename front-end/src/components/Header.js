@@ -5,10 +5,12 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import { useDispatch, useSelector } from "react-redux";
 import { loginMode, logout, signupMode, toggleLoginMode } from "../store";
 import Button from "react-bootstrap/esm/Button";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const authState = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  const navigate=useNavigate()
   const loginModeHandler = () => {
     dispatch(loginMode());
   };
@@ -17,6 +19,8 @@ const Header = () => {
   };
   const logoutHander = () => {
     dispatch(logout());
+    alert("User logout successfully");
+    navigate('/login');
   };
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
