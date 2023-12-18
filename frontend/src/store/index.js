@@ -10,6 +10,6 @@ const store=configureStore({
 })
 
 export const {login,logout,toggleLoginMode,signupMode,loginMode}= authSlice.actions;
-export const { receiveMessage,sendMessage}=emailSlice.actions;
+export const { receiveMessage,sendMessage,setCurrentMessage}=emailSlice.actions;
 
 export default store;

@@ -13,7 +13,7 @@ const EmailChat = sequelize.define(
   "EmailChat",
   {
     // Model attributes are defined here
-    messages: {
+    message: {
       type: DataTypes.JSON,
       allowNull:false
     },

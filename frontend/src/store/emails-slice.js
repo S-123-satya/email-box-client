@@ -10,8 +10,8 @@ const initialState={
         readStatus:false,
     }],
     unReadMessages:0,
-    sentMessages:[]
-
+    sentMessages:[],
+    currentEditorMessage:null,
 }
 
 const emailSlice=createSlice({
@@ -25,6 +25,11 @@ const emailSlice=createSlice({
             state.messages.push({...action.payload})
             if(action.payload.readStatus) 
             state.unReadMessages++;
+        },
+        setCurrentMessage(state,action){
+            console.log(`hii set currrent`);
+            console.log(action);
+            state.currentEditorMessage=action.payload;
         }
     }
 })
