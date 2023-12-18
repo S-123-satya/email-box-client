@@ -30,24 +30,31 @@ const LoginForm = () => {
         } else url = `http://localhost:5000/user/signup`;
         const response = await axios.post(url, obj);
         console.log(response);
+        //change your navigation to home route or email route
       }
     } catch (error) {
         //somthing went wrong
-        console.log(error.response.data.message);
+        console.log(error?.response?.data?.message);
         console.log(`somthing went wrong`);
         // throw new Error(error.message);
     }
   };
   return (
-    <Container className="p-5">
-      <Row className="p-5">
-        <Col className="p-5">
-          <Form className="p-5" onSubmit={submitHandler}>
-            <h3 className="text-center text-bg-success p-2 rounded-top-2">
+    <Container className="pt-5  d-flex align-items-center justify-content-center ">
+      <Row className="pt-5 w-50 ">
+        <Col className="pt-5">
+          <Form
+            className="pt-4 m-1 bg-success rounded-2 fs-3"
+            onSubmit={submitHandler}
+          >
+            <h3 className="text-center text-bg-success p-2 ">
               {authState.isLoginMode ? "Login" : "SignUp"}
             </h3>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label>Email address</Form.Label>
+            <Form.Group
+              className="mx-2 bg-light rounded-top-2"
+              controlId="formBasicEmail"
+            >
+              <Form.Label className="m-1">Email address</Form.Label>
               <Form.Control
                 type="email"
                 value={emailInp}
@@ -56,8 +63,11 @@ const LoginForm = () => {
                 required
               />
             </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Label>Password</Form.Label>
+            <Form.Group
+              className={authState.isLoginMode?"mx-2 bg-light rounded-bottom-2":"mx-2 bg-light"}
+              controlId="formBasicPassword"
+            >
+              <Form.Label className="m-1">Password</Form.Label>
               <Form.Control
                 type="password"
                 value={passwordInp}
@@ -66,8 +76,11 @@ const LoginForm = () => {
               />
             </Form.Group>
             {!authState.isLoginMode && (
-              <Form.Group className="mb-3" controlId="formBasicConfirmPassword">
-                <Form.Label>Confirm Password</Form.Label>
+              <Form.Group
+                className="mx-2  bg-light rounded-bottom-2"
+                controlId="formBasicConfirmPassword"
+              >
+                <Form.Label className="m-1">Confirm Password</Form.Label>
                 <Form.Control
                   type="password"
                   value={cpasswordInp}
@@ -76,10 +89,10 @@ const LoginForm = () => {
                 />
               </Form.Group>
             )}
-            <div className="text-center  text-bg-success p-2 rounded-bottom-2">
+            <div className="text-center text-bg-success p-2 rounded-bottom-2">
               <Button
                 variant="info"
-                className="fs-4 fw-semibold m-2 text-primary w-25"
+                className="fs-4 fw-semibold m-2 text-primary w-md-50"
                 type="submit"
               >
                 {authState.isLoginMode ? "Login" : "SignUp"}
