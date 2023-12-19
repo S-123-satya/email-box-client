@@ -21,6 +21,9 @@ const EmailChat = sequelize.define(
       type:DataTypes.BOOLEAN,
       allowNull:false,
       defaultValue:false,
+    },
+    subject:{
+      type:DataTypes.TEXT,
     }
   },
   {

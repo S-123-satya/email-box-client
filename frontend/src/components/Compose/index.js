@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { Component, useEffect, useState } from "react";
 import { Editor } from "react-draft-wysiwyg";
 import "../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import EditorComponent from "./EditorComponent";
@@ -10,16 +10,43 @@ import { Form, InputGroup } from "react-bootstrap";
 
 const Compose = () => {
   const emailState = useSelector((state) => state.email);
+  const authState = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const [emailInp, setEmailInp] = useState("");
   const [subjectInp, setSubjectInp] = useState("");
-  const [cpasswordInp, setCpasswordInp] = useState("");
-  const submitHandler = async () => {
+  const token = authState.token;
+  const headers = { headers: { authorization: token } };
+  useEffect(() => {
+    const fetch=async()=>{
+      console.log(emailInp);
+      if(emailInp){
+        const response =await axios.get(`http://localhost:5000/user/${emailInp}`);
+        console.log(response);
+      }
+    }
+    let t=setTimeout(async()=>{
+      await fetch();
+    },2000);
+    // setTimeout
+    return ()=>{
+      clearTimeout(t);
+    }
+    // console.log(response);
+  }, [emailInp]);
+
+  const submitHandler = async (e) => {
+    e.preventDefault();
     try {
       const obj = {
         message: emailState.currentEditorMessage,
+        subject: subjectInp,
+        receiver: emailInp,
       };
-      const response = await axios.post(`http://localhost:5000/email`, obj);
+      const response = await axios.post(
+        `http://localhost:5000/email`,
+        obj,
+        headers
+      );
       console.log(response);
       dispatch(sendMessage({ ...response.data }));
       dispatch(setCurrentMessage(null));
@@ -53,31 +80,6 @@ const Compose = () => {
             placeholder="Subject"
           />
         </InputGroup>
-        {/* <Form.Group
-          className="mx-2 bg-light rounded-top-2"
-          controlId="formBasicEmail"
-        >
-          <Form.Control
-            type="email"
-            value={emailInp}
-            onChange={(e) => setEmailInp(e.target.value)}
-            placeholder="Enter email"
-            required
-          />
-        </Form.Group> */}
-
-        {/* <Form.Group
-          className="mx-2  bg-light rounded-bottom-2"
-          controlId="formBasicConfirmPassword"
-        >
-          <Form.Label className="m-1">Subject</Form.Label>
-          <Form.Control
-            type="text"
-            value={subjectInp}
-            onChange={(e) => setSubjectInp(e.target.value)}
-            placeholder="Password"
-          />
-        </Form.Group> */}
         <div
           style={{ height: "500px" }}
           className="  text-bg-success border-top border-2 border-light pt-2 rounded-bottom-2"

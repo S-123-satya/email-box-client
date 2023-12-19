@@ -1,12 +1,14 @@
 const User = require("../models/user-model");
 const bcrypt = require("bcrypt");
-const generateToken = require("../common/token");
+const generateToken = require("../middleware/generateToken");
 const EmailChat = require("../models/email-model");
 const saltRounds = 10;
 
 module.exports.postEmail = async (req, res) => {
-  console.log(req.body);
-
+  //append everything to Emailchat then send it database 
+  /*
+   *@userId,senderId,receiverId,message,readStatus,subject
+   */
   const result = await EmailChat.create(req.body);
   res.status(201).json({
     result,
