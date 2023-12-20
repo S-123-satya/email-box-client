@@ -9,11 +9,15 @@ const extractToken = async (req, res, next) => {
             throw new Error(err);
         }
         const user = await User.findByPk(obj.id);
+        console.log(obj);
         if (user && user.email === obj.email) {
           req.user = user;
           next();
+        }else{
+
+          console.log(user);
+          console.log('some error in extact token');
         }
-        throw new Error("something went wrong");
       }
     );
   } catch (error) {

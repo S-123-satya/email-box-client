@@ -4,33 +4,39 @@ import "../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import EditorComponent from "./EditorComponent";
 import Button from "react-bootstrap/esm/Button";
 import { useDispatch, useSelector } from "react-redux";
-import { sendMessage, setCurrentMessage } from "../../store";
+import { hideModel, sendMessage, setCurrentMessage, showModel } from "../../store";
 import axios from "axios";
-import { Form, InputGroup } from "react-bootstrap";
+import { Form, InputGroup, ListGroup } from "react-bootstrap";
+import Suggestion from "../Suggestion";
 
 const Compose = () => {
   const emailState = useSelector((state) => state.email);
   const authState = useSelector((state) => state.auth);
+  const modelState = useSelector((state) => state.model);
   const dispatch = useDispatch();
   const [emailInp, setEmailInp] = useState("");
   const [subjectInp, setSubjectInp] = useState("");
+  const [suggestion, setSuggestion] = useState([]);
   const token = authState.token;
   const headers = { headers: { authorization: token } };
   useEffect(() => {
-    const fetch=async()=>{
+    const fetch = async () => {
       console.log(emailInp);
-      if(emailInp){
-        const response =await axios.get(`http://localhost:5000/user/${emailInp}`);
+      if (emailInp) {
+        const response = await axios.get(
+          `http://localhost:5000/user/${emailInp}`
+        );
         console.log(response);
+        setSuggestion(response.data.users);
       }
-    }
-    let t=setTimeout(async()=>{
+    };
+    let t = setTimeout(async () => {
       await fetch();
-    },2000);
+    }, 300);
     // setTimeout
-    return ()=>{
+    return () => {
       clearTimeout(t);
-    }
+    };
     // console.log(response);
   }, [emailInp]);
 
@@ -59,18 +65,36 @@ const Compose = () => {
     <>
       <Form
         className="pt-4 p-2 m-1 bg-success rounded-2 fs-3"
-        onSubmit={submitHandler}
       >
         <InputGroup className="mb-3 bg-light rounded-top-2">
           <InputGroup.Text id="basic-addon1">To</InputGroup.Text>
           <Form.Control
             type="email"
             value={emailInp}
-            onChange={(e) => setEmailInp(e.target.value)}
+            onChange={(e) => {
+              setEmailInp(e.target.value);
+            }}
             placeholder="Email"
             required
+            onFocus={()=>dispatch(showModel())}
           />
         </InputGroup>
+        {modelState.show && <ListGroup
+            className="bg-light fs-5 position-fixed z-3"
+            style={{ width: "75%" }}
+          >
+            {suggestion.map((item) => (
+              <Suggestion
+                key={item.id}
+                email={item.email}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setEmailInp(item.email);
+                  dispatch(hideModel());
+                }}
+              />
+            ))}
+          </ListGroup>}
         <InputGroup className="mb-3 bg-light rounded-top-2">
           <InputGroup.Text id="basic-addon2">Subject</InputGroup.Text>
           <Form.Control
@@ -90,13 +114,14 @@ const Compose = () => {
               variant="info"
               className="fs-5 fw-semibold mx-2 bg-light w-md-50"
               type="submit"
+              onClick={submitHandler}
             >
               Send
             </Button>
             <Button
               variant="info"
               className="fs-5 fw-semibold mx-2 bg-light w-md-50"
-              type="submit"
+              type="button"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

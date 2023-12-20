@@ -1,8 +1,18 @@
 import React from 'react'
+import InboxMessage from '../InboxMessage'
 
 const Inbox = () => {
   return (
-    <div>Inbox</div>
+    <div>
+      <InboxMessage/>
+      <InboxMessage/>
+      <InboxMessage/>
+      <InboxMessage/>
+      <InboxMessage/>
+      <InboxMessage/>
+      <InboxMessage/>
+      <InboxMessage/>
+    </div>
   )
 }
 

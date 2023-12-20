@@ -9,10 +9,15 @@ module.exports.postEmail = async (req, res) => {
   /*
    *@userId,senderId,receiverId,message,readStatus,subject
    */
-  const result = await EmailChat.create(req.body);
-  res.status(201).json({
-    result,
-  });
+  try {
+    console.log(req.body);
+    const result = await EmailChat.create(req.body);
+    res.status(201).json({
+      result,
+    });
+  } catch (error) {
+    console.log(error);
+  }
 };
 module.exports.postSignUp = async (req, res) => {
   try {

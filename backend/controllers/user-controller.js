@@ -50,10 +50,18 @@ module.exports.postSignUp = async (req, res) => {
 };
 module.exports.getUser =async (req, res) => {
   //make a controller to search the user using emial id using deboucing
-  console.log(req.params.email);
-  const users=await User.findAll({where:{email:{[Op.like]:`${req.params.email}%`}}})
-  console.log(users);
-  res.json({users})
+  try {
+    
+    console.log(req.params.email);
+    let users=[];
+    if(req.params.email)
+     users=await User.findAll({where:{email:{[Op.like]:`${req.params.email}%`}}})
+    console.log(users);
+    res.json({users})
+  } catch (error) {
+    console.log(error);
+    res.json({message:"someting went wrong in fetching user"})
+  }
 };
 module.exports.profileController = (req, res) => {
   console.log(req);

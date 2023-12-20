@@ -1,5 +1,0 @@
- CREATE TABLE IF NOT EXISTS `Users` (`id` INTEGER NOT NULL auto_increment , `name` VARCHAR(255), `password` VARCHAR(255) NOT NULL, `email` VARCHAR(255) NOT NULL UNIQUE, `profilePic` VARCHAR(255), `createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB;
-Executing (default): SHOW INDEX FROM `Users`
-Executing (default): DROP TABLE IF EXISTS `EmailChats`;
-Executing (default): CREATE TABLE IF NOT EXISTS `EmailChats` (`id` INTEGER NOT NULL auto_increment , `messages` JSON NOT NULL, `readStatus` TINYINT(1) NOT NULL DEFAULT false, `createdAt` DATETIME 
-NOT NULL, `updatedAt` DATETIME NOT NULL, `UserId` INTEGER, `SenderId` INTEGER, `ReceiverId` INTEGER, PRIMARY KEY (`id`), FOREIGN KEY (`UserId`) REFERENCES `Users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE, FOREIGN KEY (`SenderId`) REFERENCES `Users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE, FOREIGN KEY (`ReceiverId`) REFERENCES `Users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE) ENGINE=InnoDB;
