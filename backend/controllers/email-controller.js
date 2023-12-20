@@ -22,22 +22,10 @@ module.exports.postEmail = async (req, res) => {
 };
 
 module.exports.getEmails = async(req, res) => {
-  console.log(`line 24`);
-  console.log(req.user);
-  const messages1=await EmailChat.findAll({where:{ReceiverId:req.user.id}});
-  const messages2=await req.user.getEmailChats();
-  const messages3=await EmailChat.findAll();
-  console.log(messages1);
-  console.log(messages2);
-  res.json({message:"get messages successfully",messages1,messages2,messages3});
+  const messages=await EmailChat.findAll({where:{ReceiverId:req.user.id}});
+  res.json({message:"get messages successfully",messages});
 };
 module.exports.getSentEmails =async (req, res) => {
-  console.log(`line 35`);
-  console.log(req.user);
-  const messages1=await EmailChat.findAll({where:{SenderId:req.user.id}});
-  const messages2=await req.user.getEmailChats();
-  const messages3=await EmailChat.findAll();
-  console.log(messages1);
-  console.log(messages2);
-  res.json({message:"get messages successfully",messages1,messages2,messages3});
+  const messages=await EmailChat.findAll({where:{SenderId:req.user.id}});
+  res.json({message:"get messages successfully",messages});
 };

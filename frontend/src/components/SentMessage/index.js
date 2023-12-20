@@ -1,6 +1,7 @@
 import axios from 'axios';
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
+import InboxMessage from '../InboxMessage';
 
 const SentMessage = () => {
   const emailState = useSelector((state) => state.email);
@@ -8,6 +9,7 @@ const SentMessage = () => {
   const dispatch = useDispatch();
   const token = authState.token;
   const headers = { headers: { authorization: token } };
+  const [mitem,setMitem]=useState('');
 
   useEffect(()=>{
     //make an api call for receive messages
@@ -16,11 +18,15 @@ const SentMessage = () => {
           `http://localhost:5000/email/sent`,headers
         );
         console.log(response);
+        setMitem(response.data.messages)
       };
       fetch();
+      console.log(mitem);
   },[])
   return (
-    <div> sent Message</div>
+    <div>
+      {mitem && mitem.length>0 && mitem.map(m=><InboxMessage message={m}/>)}
+    </div>
   )
 }
 
