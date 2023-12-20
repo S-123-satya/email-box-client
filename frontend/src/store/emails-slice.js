@@ -1,7 +1,7 @@
 import moduleName, { createSlice } from '@reduxjs/toolkit';
 
 const initialState={
-    messages:[{
+    receivedMessages:[{
         id:1,
         sender:"xyz@gmail.com",
         receiver:"abc@gmail.com",
@@ -11,7 +11,8 @@ const initialState={
     }],
     unReadMessages:0,
     sentMessages:[],
-    currentEditorMessage:null,
+    currentEditorMessage:{},
+    currentEditorMessageReceiver:'',
 }
 
 const emailSlice=createSlice({
@@ -22,7 +23,7 @@ const emailSlice=createSlice({
             state.sentMessages.push({...action.payload})
         },
         receiveMessage(state,action){
-            state.messages.push({...action.payload})
+            state.receivedMessages.push({...action.payload})
             if(action.payload.readStatus) 
             state.unReadMessages++;
         },
@@ -30,7 +31,13 @@ const emailSlice=createSlice({
             console.log(`hii set currrent`);
             console.log(action);
             state.currentEditorMessage=action.payload;
+        },
+        setCurrentMessageUser(state,action){
+            console.log(`hii set currrent user`);
+            console.log(action);
+            state.currentEditorMessageReceiver=action.payload;
         }
     }
 })
- export default emailSlice;
+
+export default emailSlice;

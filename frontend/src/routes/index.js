@@ -3,7 +3,7 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from "react-router-dom";
-import { Compose, Home, Inbox, Login, Message } from "../components";
+import { Compose, Home, Inbox, Login, SentMessage } from "../components";
 
 const elementRoute = createRoutesFromElements(
   <>
@@ -12,7 +12,7 @@ const elementRoute = createRoutesFromElements(
       <Route path="/login" element={<Login />} />
       <Route path="/inbox" element={<Inbox />} />
       <Route path="/compose" element={<Compose />} />
-      <Route path="/message" element={<Message />} />
+      <Route path="/sent" element={<SentMessage />} />
     </Route>
   </>
 );

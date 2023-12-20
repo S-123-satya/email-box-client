@@ -11,6 +11,7 @@ module.exports.postEmail = async (req, res) => {
    */
   try {
     console.log(req.body);
+    req.body.SenderId=req.user.id;
     const result = await EmailChat.create(req.body);
     res.status(201).json({
       result,
@@ -19,36 +20,24 @@ module.exports.postEmail = async (req, res) => {
     console.log(error);
   }
 };
-module.exports.postSignUp = async (req, res) => {
-  try {
-    const result = await User.findOne({ where: { email: req.body.email } });
-    console.log(result);
-    if (result) res.status(409).json({ message: "email already exists" });
-    else {
-      //use bcrypt to encrypt password and send it to database
-      const hash = await bcrypt.hash(req.body.password, saltRounds);
-      req.body.password = hash;
-      const user = await User.create(req.body);
-      //generate token
-      const token = await generateToken({ id: user.id, email: user.email });
-      res.status(201).json({
-        message: "User signup successfully",
-        //only send token and extract everything from token
-        userId: user.id,
-        email: user.email,
-        token: token,
-      });
-    }
-  } catch (error) {
-    console.log(error);
-    res.status(409).json({ message: "Something went wrong" });
-  }
+
+module.exports.getEmails = async(req, res) => {
+  console.log(`line 24`);
+  console.log(req.user);
+  const messages1=await EmailChat.findAll({where:{ReceiverId:req.user.id}});
+  const messages2=await req.user.getEmailChats();
+  const messages3=await EmailChat.findAll();
+  console.log(messages1);
+  console.log(messages2);
+  res.json({message:"get messages successfully",messages1,messages2,messages3});
 };
-module.exports.getUser = (req, res) => {
-  console.log(req);
-  console.log(req.body);
-};
-module.exports.profileController = (req, res) => {
-  console.log(req);
-  console.log(req.body);
+module.exports.getSentEmails =async (req, res) => {
+  console.log(`line 35`);
+  console.log(req.user);
+  const messages1=await EmailChat.findAll({where:{SenderId:req.user.id}});
+  const messages2=await req.user.getEmailChats();
+  const messages3=await EmailChat.findAll();
+  console.log(messages1);
+  console.log(messages2);
+  res.json({message:"get messages successfully",messages1,messages2,messages3});
 };

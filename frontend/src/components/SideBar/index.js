@@ -7,7 +7,7 @@ function SideBar() {
     <Nav defaultActiveKey="/" className="flex-column">
       <NavLink to="/compose" className="btn m-2 fs-4 rounded-4 bg-opacity-75 bg-success" >Compose</NavLink>
         <NavItem link="/inbox" title="Inbox"/>
-        <NavItem link="/message" title="Sent"/>
+        <NavItem link="/sent" title="Sent"/>
     </Nav>
   );
 }

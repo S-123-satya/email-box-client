@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react'
-import InboxMessage from '../InboxMessage'
-import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 
-const Inbox = () => {
+const SentMessage = () => {
   const emailState = useSelector((state) => state.email);
   const authState = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -14,24 +13,15 @@ const Inbox = () => {
     //make an api call for receive messages
     const fetch = async () => {
         const response = await axios.get(
-          `http://localhost:5000/email`,headers
+          `http://localhost:5000/email/sent`,headers
         );
         console.log(response);
       };
       fetch();
   },[])
   return (
-    <div>
-      <InboxMessage/>
-      <InboxMessage/>
-      <InboxMessage/>
-      <InboxMessage/>
-      <InboxMessage/>
-      <InboxMessage/>
-      <InboxMessage/>
-      <InboxMessage/>
-    </div>
+    <div> sent Message</div>
   )
 }
 
-export default Inbox
+export default SentMessage

@@ -4,7 +4,7 @@ import "../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import EditorComponent from "./EditorComponent";
 import Button from "react-bootstrap/esm/Button";
 import { useDispatch, useSelector } from "react-redux";
-import { hideModel, sendMessage, setCurrentMessage, showModel } from "../../store";
+import { hideModel, sendMessage, setCurrentMessage, setCurrentMessageUser, showModel } from "../../store";
 import axios from "axios";
 import { Form, InputGroup, ListGroup } from "react-bootstrap";
 import Suggestion from "../Suggestion";
@@ -46,8 +46,9 @@ const Compose = () => {
       const obj = {
         message: emailState.currentEditorMessage,
         subject: subjectInp,
-        receiver: emailInp,
+        ReceiverId: emailState.currentEditorMessageReceiver,
       };
+      console.log(obj,'line 51 in index');
       const response = await axios.post(
         `http://localhost:5000/email`,
         obj,
@@ -88,8 +89,10 @@ const Compose = () => {
                 key={item.id}
                 email={item.email}
                 onClick={(e) => {
+                  console.log(item);
                   e.preventDefault();
                   setEmailInp(item.email);
+                  dispatch(setCurrentMessageUser(item.id))
                   dispatch(hideModel());
                 }}
               />
