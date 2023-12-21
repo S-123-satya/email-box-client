@@ -3,19 +3,30 @@ import { useParams } from "react-router-dom";
 import DeleteIcon from "../UI/DeleteIcon";
 import { Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { unSetMessageDetailReceive } from "../../store";
+import { deleteMessage, unSetMessageDetailReceive } from "../../store";
 import { Editor } from "react-draft-wysiwyg";
 import { EditorState, convertFromRaw, convertToRaw } from "draft-js"
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css"
+import axios from "axios";
 
 const MessageDetail = (props) => {
   const { id } = useParams();
+  const token = authState.token;
+  const dispatch=useDispatch();
+  const headers = { headers: { authorization: token } };
   const [curMessage, setCurMessage] = useState(null);
   const [editorState, setEditorState] = useState(() =>
     EditorState.createEmpty()
   );
+  const deleteHandler=async(e)=>{
+    e.preventDefault();
+    const response = await axios.delete(
+      `http://localhost:5000/email/${id}`,
+      headers
+    );
+    dispatch(deleteMessage({id}));
+  }
   const emailState = useSelector((state) => state.email);
-  const dispatch = useDispatch();
   console.log(id);
   useEffect(() => {
     if (emailState.messageDetailReceive) {
@@ -56,11 +67,12 @@ const MessageDetail = (props) => {
       {curMessage && (
         <div>
           <div>
-            <DeleteIcon />
+            <DeleteIcon onclick={deleteHandler}/>
             <Button
               variant="info"
               className="fs-5 fw-semibold mx-2 bg-light w-md-50"
               type="button"
+              
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

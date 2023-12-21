@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../Message';
 import { useNavigate } from 'react-router-dom';
+import { unSetMessageDetailReceive } from '../../store';
 
 const SentMessage = () => {
   const emailState = useSelector((state) => state.email);
@@ -25,14 +26,13 @@ const SentMessage = () => {
       fetch();
       console.log(mitem);
   },[])
-  const messageDetailHandler=(e)=>{
-    e.preventDefault();
-    dispatch(setMessageDetailReceive());
-    navigate(`/message/${props.message.id}`);
+  const messageDetailHandler=(message)=>{
+    dispatch(unSetMessageDetailReceive());
+    navigate(`/message/${message.id}`);
   }
   return (
     <div>
-      {mitem && mitem.length>0 && mitem.map(m=><Message onClick={messageDetailHandler} key={m.id} message={m}/>)}
+      {mitem && mitem.length>0 && mitem.map(m=><Message onClick={messageDetailHandler.bind(null,m)} key={m.id} message={m}/>)}
     </div>
   )
 }

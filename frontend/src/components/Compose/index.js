@@ -9,12 +9,14 @@ import axios from "axios";
 import { Form, InputGroup, ListGroup } from "react-bootstrap";
 import Suggestion from "../Suggestion";
 import DeleteIcon from "../UI/DeleteIcon";
+import { useNavigate } from "react-router-dom";
 
 const Compose = () => {
   const emailState = useSelector((state) => state.email);
   const authState = useSelector((state) => state.auth);
   const modelState = useSelector((state) => state.model);
   const dispatch = useDispatch();
+  const navigate=useNavigate();
   const [emailInp, setEmailInp] = useState("");
   const [subjectInp, setSubjectInp] = useState("");
   const [suggestion, setSuggestion] = useState([]);
@@ -59,6 +61,8 @@ const Compose = () => {
       dispatch(sendMessage({ ...response.data }));
       dispatch(setCurrentMessage(null));
       setEmailInp('');
+      setSubjectInp('');
+      navigate('/inbox');
     } catch (error) {
       console.log(error);
       //save message in archive here if something wrong
@@ -123,7 +127,6 @@ const Compose = () => {
             >
               Send
             </Button>
-            <DeleteIcon/>
           </div>
         </div>
       </Form>

@@ -2,12 +2,13 @@ import React from 'react'
 import { Button } from 'react-bootstrap';
 
 
-const DeleteIcon = () => {
+const DeleteIcon = (props) => {
   return (
     <Button
     variant="info"
     className="fs-5 fw-semibold mx-2 bg-light w-md-50"
     type="button"
+    onClick={props.onClick}
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"

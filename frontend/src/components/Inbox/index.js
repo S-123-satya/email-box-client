@@ -21,7 +21,6 @@ const [mitem,setMitem]=useState('');
         );
         console.log(response);
         console.log(response.data.messages[0].message);
-        // setMitem(htmlToDraft(response.data.messages[0].message));
         response.data.messages.map(m=>dispatch(receiveMessage({...m})))
         setMitem(response.data.messages)
       
@@ -29,8 +28,12 @@ const [mitem,setMitem]=useState('');
       fetch();
       console.log(mitem);
   },[])
-  const messageDetailHandler=(message)=>{
+  const messageDetailHandler=async(message)=>{
     dispatch(setMessageDetailReceive());
+    const response = await axios.put(
+      `http://localhost:5000/email`,{...message,readStatus:true},headers
+    );
+    dispatch(messageRead({id:message.id}));
     navigate(`/message/${message.id}`);
   }
   return (

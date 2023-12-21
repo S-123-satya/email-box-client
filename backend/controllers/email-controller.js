@@ -1,14 +1,6 @@
-const User = require("../models/user-model");
-const bcrypt = require("bcrypt");
-const generateToken = require("../middleware/generateToken");
 const EmailChat = require("../models/email-model");
-const saltRounds = 10;
 
 module.exports.postEmail = async (req, res) => {
-  //append everything to Emailchat then send it database 
-  /*
-   *@userId,senderId,receiverId,message,readStatus,subject
-   */
   try {
     console.log(req.body);
     req.body.SenderId=req.user.id;
@@ -23,9 +15,17 @@ module.exports.postEmail = async (req, res) => {
 
 module.exports.getEmails = async(req, res) => {
   const messages=await EmailChat.findAll({where:{ReceiverId:req.user.id}});
-  res.json({message:"get messages successfully",messages});
+  res.json({message:"get received messages successfully",messages});
 };
 module.exports.getSentEmails =async (req, res) => {
   const messages=await EmailChat.findAll({where:{SenderId:req.user.id}});
-  res.json({message:"get messages successfully",messages});
+  res.json({message:"get send messages successfully",messages});
+};
+module.exports.deleteEmail =async (req, res) => {
+  const messages=await EmailChat.destroy({where:{id:req.params.id}});
+  res.json({message:"message deleted successfully",messages});
+};
+module.exports.updateEmail =async (req, res) => {
+  const messages=await EmailChat.update({...req.body},{where:{id:req.body.id}});
+  res.json({message:"message deleted successfully",messages});
 };
