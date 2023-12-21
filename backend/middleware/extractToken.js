@@ -9,18 +9,21 @@ const extractToken = async (req, res, next) => {
       process.env.TOKEN_SECRET_KEY || "password",
       async (err, obj) => {
         if (err) {
+          console.log(err);
           res
             .status(401)
             .json({ message: "token missing or provide a valid token" });
         }
-        const user = await User.findByPk(obj.id);
-        console.log(obj);
-        if (user && user.email === obj.email) {
-          req.user = user;
-          next();
-        } else {
-          console.log(user);
-          console.log("some error in extact token");
+        else{
+          const user = await User.findByPk(obj.id);
+          console.log(obj);
+          if (user && user.email === obj.email) {
+            req.user = user;
+            next();
+          } else {
+            console.log(user);
+            console.log("some error in extact token");
+          }
         }
       }
     );

@@ -37,6 +37,7 @@ const EditorComponent = () => {
   return (
     <div style={{ height: "90%" }} className="overflow-auto">
       <Editor
+      
         toolbarStyle={{ position: "sticky", top: 0 }}
         wrapperClassName="demo-wrapper"
         editorClassName="demo-editor"

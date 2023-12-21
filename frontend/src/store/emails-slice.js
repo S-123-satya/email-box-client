@@ -1,16 +1,10 @@
 import moduleName, { createSlice } from '@reduxjs/toolkit';
 
 const initialState={
-    receivedMessages:[{
-        id:1,
-        sender:"xyz@gmail.com",
-        receiver:"abc@gmail.com",
-        message:"hii",
-        time:"2023-12-18",
-        readStatus:false,
-    }],
+    receivedMessages:[],
     unReadMessages:0,
     sentMessages:[],
+    messageDetailReceive:false,
     currentEditorMessage:{},
     currentEditorMessageReceiver:'',
 }
@@ -36,6 +30,12 @@ const emailSlice=createSlice({
             console.log(`hii set currrent user`);
             console.log(action);
             state.currentEditorMessageReceiver=action.payload;
+        },
+        setMessageDetailReceive(state){
+            state.messageDetailReceive=true;
+        },
+        unSetMessageDetailReceive(state){
+            state.messageDetailReceive=false;
         }
     }
 })

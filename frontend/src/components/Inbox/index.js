@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import InboxMessage from '../InboxMessage'
+import Message from '../Message'
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
-import htmlToDraft from 'html-to-draftjs';
+import { useNavigate } from 'react-router-dom';
+import { receiveMessage, setMessageDetailReceive } from '../../store';
 
 const Inbox = () => {
   const emailState = useSelector((state) => state.email);
@@ -10,6 +11,7 @@ const Inbox = () => {
   const dispatch = useDispatch();
   const token = authState.token;
   const headers = { headers: { authorization: token } };
+  const navigate=useNavigate();
 const [mitem,setMitem]=useState('');
   useEffect(()=>{
     //make an api call for receive messages
@@ -20,15 +22,20 @@ const [mitem,setMitem]=useState('');
         console.log(response);
         console.log(response.data.messages[0].message);
         // setMitem(htmlToDraft(response.data.messages[0].message));
+        response.data.messages.map(m=>dispatch(receiveMessage({...m})))
         setMitem(response.data.messages)
       
       };
       fetch();
       console.log(mitem);
   },[])
+  const messageDetailHandler=(message)=>{
+    dispatch(setMessageDetailReceive());
+    navigate(`/message/${message.id}`);
+  }
   return (
     <div>
-      {mitem && mitem.length>0 && mitem.map(m=><InboxMessage message={m}/>)}
+      {mitem && mitem.length>0 && mitem.map(m=><Message onClick={messageDetailHandler.bind(null,m)} key={m.id} message={m}/>)}
     </div>
   )
 }
