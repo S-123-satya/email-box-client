@@ -10,9 +10,11 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css"
 import axios from "axios";
 
 const MessageDetail = (props) => {
+  const authState = useSelector((state) => state.auth);
   const { id } = useParams();
   const token = authState.token;
   const dispatch=useDispatch();
+
   const headers = { headers: { authorization: token } };
   const [curMessage, setCurMessage] = useState(null);
   const [editorState, setEditorState] = useState(() =>

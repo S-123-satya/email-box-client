@@ -18,7 +18,7 @@ const emailSlice = createSlice({
     },
     receiveMessage(state, action) {
       state.receivedMessages.push({ ...action.payload });
-      if (action.payload.readStatus) state.unReadMessages++;
+      if (action.payload.readStatus) state.unReadMessages=state.unReadMessages + 1;
     },
     deleteMessage(state, action) {
       if (state.messageDetailReceive) {
@@ -31,7 +31,7 @@ const emailSlice = createSlice({
         );
       }
     },
-    deleteMessage(state, action) {
+    readMessage(state, action) {
       state.unReadMessages = state.unReadMessages - 1;
       state.receivedMessages = state.receivedMessages.map((m) => {
         if (m.id != action.payload.id) return m;

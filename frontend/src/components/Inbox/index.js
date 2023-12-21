@@ -3,7 +3,7 @@ import Message from '../Message'
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { receiveMessage, setMessageDetailReceive } from '../../store';
+import { readMessage, receiveMessage, setMessageDetailReceive } from '../../store';
 
 const Inbox = () => {
   const emailState = useSelector((state) => state.email);
@@ -33,7 +33,7 @@ const [mitem,setMitem]=useState('');
     const response = await axios.put(
       `http://localhost:5000/email`,{...message,readStatus:true},headers
     );
-    dispatch(messageRead({id:message.id}));
+    dispatch(readMessage({id:message.id}));
     navigate(`/message/${message.id}`);
   }
   return (
