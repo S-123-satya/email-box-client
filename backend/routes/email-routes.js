@@ -5,7 +5,7 @@ const router= Router();
 
 router.post('', extractToken, postEmail);
 router.get('/:id', extractToken, getEmails);
-router.delete('/:id', extractToken, deleteEmail);
+router.put('/delete:id', extractToken, deleteEmail);
 router.put('/', extractToken, updateEmail);
 router.get('/sent/:id', extractToken, getSentEmails);
 // router.post('/signup',postSignUp);

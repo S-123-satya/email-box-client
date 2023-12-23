@@ -98,7 +98,7 @@ const Compose = () => {
                   console.log(item);
                   e.preventDefault();
                   setEmailInp(item.email);
-                  dispatch(setCurrentMessageUser(item.id))
+                  dispatch(setCurrentMessageUser(item.email))
                   dispatch(hideModel());
                 }}
               />

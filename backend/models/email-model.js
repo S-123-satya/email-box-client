@@ -23,7 +23,15 @@ const EmailChat = sequelize.define(
     },
     subject:{
       type:DataTypes.TEXT,
-    }
+    },
+    receiverDelete:{
+      type:DataTypes.BOOLEAN,
+      defaultValue:false,
+    },
+    senderDelete:{
+      type:DataTypes.BOOLEAN,
+      defaultValue:false,
+    },
   },
   {
     // Other model options go here

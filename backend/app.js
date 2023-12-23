@@ -18,11 +18,11 @@ app.use("/user", userRoutes);
 app.use("/email", emailRoutes);
 
 User.hasMany(EmailChat)
-EmailChat.belongsTo(User, { as: "Sender" });
-EmailChat.belongsTo(User, { as: "Receiver" });
+EmailChat.belongsTo(User, { as: "Sender", targetKey:'email'});
+EmailChat.belongsTo(User, { as: "Receiver", targetKey:'email' });
 
 sequelize
-  .sync({ force: false })
+  .sync({ alter: false })
   .then((result) => {
     app.listen(port, () => {
       console.log(`app is running at http://localhost:${port}`);

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import DeleteIcon from "../UI/DeleteIcon";
 import { Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,7 +14,7 @@ const MessageDetail = (props) => {
   const { id } = useParams();
   const token = authState.token;
   const dispatch=useDispatch();
-
+  const navigate=useNavigate()
   const headers = { headers: { authorization: token } };
   const [curMessage, setCurMessage] = useState(null);
   const [editorState, setEditorState] = useState(() =>
@@ -22,11 +22,22 @@ const MessageDetail = (props) => {
   );
   const deleteHandler=async(e)=>{
     e.preventDefault();
-    const response = await axios.delete(
-      `http://localhost:5000/email/${id}`,
-      headers
-    );
+    console.log(`delete`);
+    if(emailState.messageDetailReceive){
+      const response = await axios.put(
+        `http://localhost:5000/email/delete${curMessage.id}`,{...curMessage,receiverDelete:true},
+        headers
+      );
+    }
+    else{
+      const response = await axios.put(
+        `http://localhost:5000/email/delete${curMessage.id}`,{...curMessage,senderDelete:true},
+        headers
+      );
+    }
     dispatch(deleteMessage({id}));
+    navigate('/inbox');
+    console.log(`delete succ`);
   }
   const emailState = useSelector((state) => state.email);
   useEffect(() => {
@@ -66,7 +77,7 @@ const MessageDetail = (props) => {
       {curMessage && (
         <div>
           <div>
-            <DeleteIcon onclick={deleteHandler}/>
+            <DeleteIcon onClick={deleteHandler}/>
             <Button
               variant="info"
               className="fs-5 fw-semibold mx-2 bg-light w-md-50"
@@ -82,11 +93,11 @@ const MessageDetail = (props) => {
                 viewBox="0 0 16 16"
               >
                 <path
-                  fill-rule="evenodd"
+                  fillRule="evenodd"
                   d="M3.5 10a.5.5 0 0 1-.5-.5v-8a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 0 0 1h2A1.5 1.5 0 0 0 14 9.5v-8A1.5 1.5 0 0 0 12.5 0h-9A1.5 1.5 0 0 0 2 1.5v8A1.5 1.5 0 0 0 3.5 11h2a.5.5 0 0 0 0-1z"
                 />
                 <path
-                  fill-rule="evenodd"
+                  fillRule="evenodd"
                   d="M7.646 15.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 14.293V5.5a.5.5 0 0 0-1 0v8.793l-2.146-2.147a.5.5 0 0 0-.708.708z"
                 />
               </svg>
