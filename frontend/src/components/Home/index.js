@@ -10,35 +10,35 @@ import axios from "axios";
 import { receiveMessage } from "../../store";
 
 const Home = () => {
-  const authState=useSelector(state=>state.auth);
-  const emailState=useSelector(state=>state.email);
+  const authState = useSelector((state) => state.auth);
+  const emailState = useSelector((state) => state.email);
   const dispatch = useDispatch();
   const token = authState.token;
   const headers = { headers: { authorization: token } };
-  useEffect(()=>{
-  setTimeout(()=>{
-    const fetch = async (id) => {
-      const response = await axios.get(
-        `http://localhost:5000/email/${id}`,headers
-      );
-      console.log(response);
-      response.data.messages.map(m=>dispatch(receiveMessage({...m})))
-    };
-    let len = emailState.receivedMessages.length;
-    let id = len==0?0:emailState.receivedMessages[len - 1].id;
-    if(authState.isLogin){
-      fetch(id);
-    }
-  },2000);
-},[]);
+  useEffect(() => {
+    const timer=setInterval(async () => {
+      if (authState.isLogin==true) {
+        let len = emailState.receivedMessages.length;
+        let id = len == 0 ? 0 : emailState.receivedMessages[len - 1].id;
+        const response = await axios.get(
+          `http://localhost:5000/email/${id}`,
+          headers
+        );
+        response.data.messages.map((m) => dispatch(receiveMessage({ ...m })));
+      }
+    }, 2000);
+    return ()=>clearInterval(timer)
+  }, [authState.isLogin,emailState.receivedMessages.length]);
   return (
     <div>
       <Container className=" min-vh-100" fluid>
-        <Header  />
+        <Header />
         <Row className="h-100">
-         {authState.isLogin && <Col md={2} className="border  border-black">
-            <SideBar/>
-          </Col>}
+          {authState.isLogin && (
+            <Col md={2} className="border  border-black">
+              <SideBar />
+            </Col>
+          )}
           <Col className="border  border-black">
             <Outlet />
           </Col>
