@@ -29,14 +29,13 @@ const MessageDetail = (props) => {
     dispatch(deleteMessage({id}));
   }
   const emailState = useSelector((state) => state.email);
-  console.log(id);
   useEffect(() => {
     if (emailState.messageDetailReceive) {
-      console.log(emailState.receivedMessages);
       setCurMessage(
         ...emailState.receivedMessages.filter((m) => {
           console.log(m);
           if (m.id == id) {
+          if(Object.keys(m.message).length>0)
             setEditorState(EditorState.createWithContent(convertFromRaw(m.message)));
             // setEditorState(m.message)
             return m;
@@ -45,16 +44,14 @@ const MessageDetail = (props) => {
       );
     } else {
       console.log(emailState.sentMessages);
-      const cur = emailState.sentMessages.filter((m) => {
-        console.log(m);
-        console.log(id);
+      setCurMessage(...emailState.sentMessages.filter((m) => {
         if (m.id == id) {
+          if(Object.keys(m.message).length>0)
+          setEditorState(EditorState.createWithContent(convertFromRaw(m.message)));
           console.log(m);
           return m;
         }
-      });
-      console.log(cur);
-      setCurMessage(...cur);
+      }));
     }
     return () => dispatch(unSetMessageDetailReceive());
   }, []);
@@ -81,7 +78,7 @@ const MessageDetail = (props) => {
                 width="16"
                 height="16"
                 fill="currentColor"
-                class="bi bi-box-arrow-down"
+                className="bi bi-box-arrow-down"
                 viewBox="0 0 16 16"
               >
                 <path
@@ -97,12 +94,12 @@ const MessageDetail = (props) => {
           </div>
           <div className="fs-4 fw-semibold m-1"> {curMessage.subject}</div>
           <div>
-            <sapn>{curMessage.SenderId}</sapn>
-            <sapn>
+            <span>{curMessage.SenderId}</span>
+            <span>
               {"<"}
               {curMessage.SenderId}
               {">"}
-            </sapn>
+            </span>
             <span>10:30</span>
             <p>
               To:<span>{curMessage.ReceiverId}</span>

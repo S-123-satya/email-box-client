@@ -15,7 +15,6 @@ const EmailChat = sequelize.define(
     // Model attributes are defined here
     message: {
       type: DataTypes.JSON,
-      allowNull:false
     },
     readStatus:{
       type:DataTypes.BOOLEAN,

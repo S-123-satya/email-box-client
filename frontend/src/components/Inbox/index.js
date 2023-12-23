@@ -15,17 +15,17 @@ const Inbox = () => {
 const [mitem,setMitem]=useState('');
   useEffect(()=>{
     //make an api call for receive messages
-    const fetch = async () => {
+    const fetch = async (id) => {
         const response = await axios.get(
-          `http://localhost:5000/email`,headers
+          `http://localhost:5000/email/${id}`,headers
         );
         console.log(response);
-        console.log(response.data.messages[0].message);
         response.data.messages.map(m=>dispatch(receiveMessage({...m})))
         setMitem(response.data.messages)
-      
       };
-      fetch();
+      let len = emailState.receivedMessages.length;
+      let id = len==0?0:emailState.receivedMessages[len - 1].id;
+      fetch(id);
       console.log(mitem);
   },[])
   const messageDetailHandler=async(message)=>{
@@ -38,7 +38,7 @@ const [mitem,setMitem]=useState('');
   }
   return (
     <div>
-      {mitem && mitem.length>0 && mitem.map(m=><Message onClick={messageDetailHandler.bind(null,m)} key={m.id} message={m}/>)}
+      {emailState.receivedMessages.length >0 && emailState.receivedMessages.map(m=><Message onClick={messageDetailHandler.bind(null,m)} key={m.id} message={m}/>)}
     </div>
   )
 }

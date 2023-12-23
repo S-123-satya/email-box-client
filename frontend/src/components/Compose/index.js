@@ -58,7 +58,7 @@ const Compose = () => {
         headers
       );
       console.log(response);
-      dispatch(sendMessage({ ...response.data }));
+      dispatch(sendMessage({ ...response.data.message }));
       dispatch(setCurrentMessage(null));
       setEmailInp('');
       setSubjectInp('');
