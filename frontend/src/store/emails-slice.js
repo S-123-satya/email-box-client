@@ -14,10 +14,10 @@ const emailSlice = createSlice({
   initialState,
   reducers: {
     sendMessage(state, action) {
-      state.sentMessages.push({ ...action.payload });
+      state.sentMessages.unshift({ ...action.payload });
     },
     receiveMessage(state, action) {
-      state.receivedMessages.push({ ...action.payload });
+      state.receivedMessages.unshift({ ...action.payload });
       if (!action.payload.readStatus) state.unReadMessages=state.unReadMessages + 1;
     },
     deleteMessage(state, action) {

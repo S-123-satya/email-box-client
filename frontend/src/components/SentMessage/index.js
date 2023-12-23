@@ -25,7 +25,7 @@ const SentMessage = () => {
         setMitem(response.data.messages)
       };
       let len = emailState.sentMessages.length;
-      let id = len==0?0:emailState.sentMessages[len - 1].id;
+      let id = len==0?0:emailState.sentMessages[0].id;
       fetch(id);
       console.log(mitem);
   },[])

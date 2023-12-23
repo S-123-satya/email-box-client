@@ -19,7 +19,7 @@ const Home = () => {
     const timer=setInterval(async () => {
       if (authState.isLogin==true) {
         let len = emailState.receivedMessages.length;
-        let id = len == 0 ? 0 : emailState.receivedMessages[len - 1].id;
+        let id = len == 0 ? 0 : emailState.receivedMessages[0].id;
         const response = await axios.get(
           `http://localhost:5000/email/${id}`,
           headers

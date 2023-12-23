@@ -24,7 +24,7 @@ const [mitem,setMitem]=useState('');
         setMitem(response.data.messages)
       };
       let len = emailState.receivedMessages.length;
-      let id = len==0?0:emailState.receivedMessages[len - 1].id;
+      let id = len==0?0:emailState.receivedMessages[0].id;
       fetch(id);
       console.log(mitem);
   },[])
